@@ -1,0 +1,34 @@
+{
+  "name": "basic-react-router",
+  "version": "0.0.1",
+  "description": "A very basic react router",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/talkingtab/basic-react-router.git"
+  },
+  "keywords": [
+    "react",
+    "router",
+    "basic",
+    "simple"
+  ],
+  "author": "Terry Braun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/talkingtab/basic-react-router/issues"
+  },
+  "homepage": "https://github.com/talkingtab/basic-react-router#readme",
+  "dependencies": {
+    "history": "^4.7.2",
+    "path-to-regexp": "^2.1.0",
+    "react": "^16.2.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-react-app": "^3.1.0"
+  }
+}

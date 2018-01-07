@@ -2,7 +2,7 @@
 
 What do I need in a React Router? Not much. More than anythihg I need something that is not overly complex. It should be simple to install and simple to use and it should not get in my way.
 
-### "BRR Usage"
+### BRR Usage
 ```
 import { Switch, onRouterClick, Route } from "./Router";
 ...
@@ -20,7 +20,7 @@ import { Switch, onRouterClick, Route } from "./Router";
 
 ### What is a `<Switch>` and what is a `<Route>`?
 
-A `<Switch>` takes a set of `<Route>` components as children and `renders` one if it matches on the current path. So if the current path is `/room/7` then the component `<Room>` will be rendered as though the whole `<Switch/>` element was replaced with 
+A `<Switch>` takes a set of `<Route>` components as children and `renders` one if it matches the current path. If the current path is `/room/7` then the component `<Room>` will be rendered as though the whole `<Switch/>` element was replaced with 
 
 ```
 <Room id=7 catname="spike"\>
@@ -52,4 +52,8 @@ and cause a component to be instanstiated as
 	dogname="fluffy" \>
 ```
 
-### OnRouterClick
+### onRouterClick
+
+`<Route>` and `<Switch>` provide a way to render a Component depending on the path. The other functionality needed is a way to control the path which is done using `onRouterClick`. 
+
+``` 
