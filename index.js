@@ -47,13 +47,9 @@ export class Route extends Component {
             props.component
         );
     }
-
     render() {
         let { component, path, ...other } = this.props;
-        let match = true;
-        return match
-            ? React.createElement(this.props.component, this.props)
-            : null;
+        return  React.createElement(this.props.component, this.props);
     }
 }
 
