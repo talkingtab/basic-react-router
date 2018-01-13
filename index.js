@@ -94,16 +94,19 @@ export class Switch extends Component {
         let { children } = this.props;
         // console.log("children is %s", React.Children.count(children));
         let match = null;
-        let child;
+        let child, default;
         React.Children.forEach(children, element => {
-            console.log("each");
             if (element.type !== Route) {
                 throw new Error("Switch children must be <Route/>");
             }
             if (!element.props.path) {
-                throw new Error("<Switch/> child <Route/> has no path");
-            }
-            if (match === null) {
+                if ( elements.props.default ) {
+                    debug("GOT default");
+                    default = element;
+                } else { 
+                    throw new Error("<Switch/> child <Route/> has no path");
+                }
+            } else if (match === null) {
                 match = this.matchpath(this.state.path, element.props.path);
                 child = element;
             }
@@ -114,6 +117,18 @@ export class Switch extends Component {
             let outprops = { ...match, ...other };
             return React.cloneElement(child, { ...match, ...other });
         }
+        // default can be a component OR have a path for 
+        if ( default ) { 
+            console.log("brr got DEFAULT Route");
+            if ( default.type === Component ) { 
+                let { default, component, ...other } = child.props;
+                return React.cloneElement(child, { ...other });
+            } 
+            if ( default.path )  {      // <Route default path="/"
+                console.log("CONSOLE.PATH");
+            } 
+        }
+
         debug("Switch().render no  match");
         return null;
     }
