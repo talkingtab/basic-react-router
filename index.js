@@ -54,7 +54,7 @@ export class Route extends Component {
     }
     render() {
         let { component, path, ...other } = this.props;
-        return  React.createElement(this.props.component, this.props);
+        return  React.createElement(this.props.component, this.props, other);
     }
 }
 
@@ -69,7 +69,6 @@ export class Switch extends Component {
         theRouter.subscribe(this.handleChange.bind(this));
     }
     handleChange(location) {
-        console.log("Routes.handleChange, loc is %s", location.pathname);
         this.setState({ path: location.pathname });
     }
     matchpath(path, elpath) {
@@ -97,16 +96,15 @@ export class Switch extends Component {
 
     render() {
         let { children } = this.props;
-        // console.log("children is %s", React.Children.count(children));
         let match = null;
-        let child, default;
+        let child, noroute;
         React.Children.forEach(children, element => {
             if (element.type !== Route) {
                 throw new Error("Switch children must be <Route/>");
             }
             if (!element.props.path) {
                 debug("GOT default");
-                default = element;
+                noroute = element;
             } else if (match === null) {
                 match = this.matchpath(this.state.path, element.props.path);
                 child = element;
@@ -115,16 +113,12 @@ export class Switch extends Component {
         if (match) {
             debug("Switch().render found match");
             let { path, component, ...other } = child.props;
-            let outprops = { ...match, ...other };
             return React.cloneElement(child, { ...match, ...other });
         }
         // 
-        if ( default ) { 
-            console.log("brr got DEFAULT Route");
-            if ( default.type === Component ) { 
-                let { default, component, ...other } = child.props;
-                return React.cloneElement(child, { ...other, path: this.state.path });
-            } 
+        if ( noroute ) { 
+            let { component, ...other } = child.props;
+            return React.cloneElement(noroute, { ...other, path: this.state.path });
         }
         debug("Switch().render no  match");
         return null;

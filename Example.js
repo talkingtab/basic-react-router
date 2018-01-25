@@ -1,64 +1,28 @@
 import React, { Component } from "react";
 
-import { Switch, onRouterClick, Route } from "../lib/index.js";
+import { Switch, onRouterClick, Route } from "./basic-react-router";
 
-
-const Content1 = ({ catname }) => <h1>Content One {catname}</h1>;
-const Content2 = ({ catname }) => <h2>{catname}</h2>;
-const Room = ({ id, catname }) => (
-    <h2>
-        Room is {id} name is {catname}
-    </h2>
-);
+const Home = () => <p>There is no place like Home</p>;
+const Room = ({id}) => <p>A room with a {id}</p>;
+const NotFound = () => <p> 404 ... duh</p>;
+const Another = () => <p>Another day another room</p>;
 
 class App extends Component {
     render() {
         return (
             <div>
-                <div className="App">
-                    <div>
-                        <button
-                            onClick={evt => onRouterClick("/", evt)}
-                        >
-                            Page1
-                        </button>
-                        <button
-                            raised
-                            color="primary"
-                            onClick={evt => onRouterClick("/page2", evt)}
-                        >
-                            Page2
-                        </button>
-                        <button
-                            raised
-                            color="primary"
-                            onClick={evt => onRouterClick("/duck", evt)}
-                        >
-                            Duck
-                        </button>
-                        <button
-                            raised
-                            color="primary"
-                            onClick={evt => onRouterClick("/room/88", evt)}
-                        >
-                            Room
-                        </button>
-                    </div>
-                </div>
+                <button onClick={evt => onRouterClick("/", evt)} >Home</button>
+                <button onClick={evt => onRouterClick("/room/view", evt)} >Room</button>
+
                 <Switch>
-                    <Route path="/" component={Content1} catname="3toes" />
-                    <Route
-                        path="/page2"
-                        component={Content1}
-                        catname="bigfoot"
-                    />
-                    <Route path="/duck" component={Content2} catname="muffy" />
-                    <Route path="/room/:id" component={Room} catname="spike" />
+                    <Route component={NotFound} />
+                    <Route path="/" component={Home} />
+                    <Route path="/room/:id" component={Room}/>
+                    <Route path="/another" component={Another} />
                 </Switch>
             </div>
         );
     }
 }
 
-// export default withRouter()(App);
 export default App;
