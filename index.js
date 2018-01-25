@@ -13,11 +13,16 @@ class RouterStore {
         this.history = createHistory();
         this.onChange = this.onChange.bind(this);
         this.onClick = this.onClick.bind(this);
+        this.onDepClick = this.onDepClick.bind(this);
         this.location = this.history.location;
         this.subscribe = this.subscribe.bind(this);
 
         this.history.push.bind(this.history); // needed by onClick?
         this.history.listen(this.onChange); // must be called AFTER onChange is bound
+    }
+    onDepClick(name, event) {
+        console.log("onRouterClick() is deprecated, use pushUURL()");
+        this.onClick(name, event);
     }
     onClick(name, event) {
         if (event) {
@@ -100,12 +105,8 @@ export class Switch extends Component {
                 throw new Error("Switch children must be <Route/>");
             }
             if (!element.props.path) {
-                if ( elements.props.default ) {
-                    debug("GOT default");
-                    default = element;
-                } else { 
-                    throw new Error("<Switch/> child <Route/> has no path");
-                }
+                debug("GOT default");
+                default = element;
             } else if (match === null) {
                 match = this.matchpath(this.state.path, element.props.path);
                 child = element;
@@ -117,22 +118,19 @@ export class Switch extends Component {
             let outprops = { ...match, ...other };
             return React.cloneElement(child, { ...match, ...other });
         }
-        // default can be a component OR have a path for 
+        // 
         if ( default ) { 
             console.log("brr got DEFAULT Route");
             if ( default.type === Component ) { 
                 let { default, component, ...other } = child.props;
-                return React.cloneElement(child, { ...other });
-            } 
-            if ( default.path )  {      // <Route default path="/"
-                console.log("CONSOLE.PATH");
+                return React.cloneElement(child, { ...other, path: this.state.path });
             } 
         }
-
         debug("Switch().render no  match");
         return null;
     }
 }
 const theRouter = new RouterStore();
-export const onRouterClick = theRouter.onClick;
+export const onRouterClick = theRouter.onDepClick;
+export const pushURL = theRouter.onClick;
 
