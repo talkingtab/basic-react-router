@@ -9,13 +9,87 @@ BRR exposes three and only three exports:
 * `<Switch>`
 
 
-### Getting started: A Create-react-app  BRR Example
-Create a React App using `create-react-app` then replace the contents of `src/App.js` with the following.
+### Getting started
+All the examples use create-react-app. [^2] Assuming the latest version of npm (with npx is installed already):
+
+```
+npx create-react-app brr-example
+cd brr-example
+```
+Then replace App.js in the brr-example/src directory with one of the samples and 
+``` 
+npm start
+```
+
+#### The first create-react-app BRR Example
+Replace the contents of `src/App.js` with the following code. Run the example by using `npm run start`.
+
+```
+import React, { Component } from "react"
+import { Switch, pushURL, Route } from "./basic-react-router";
+
+const Home = () => <p>You are home</p>;
+const Room = () => <p>You are in a room</p>;
+
+class App extends Component {
+    render() {
+        return (
+            <div>
+                <button onClick={evt => pushURL("/", evt)} >Home</button>
+                <button onClick={evt => pushURL("/room", evt)} >Room</button>
+
+                <Switch>
+                    <Route path="/room" component={Room} />
+                    <Route path="/" component={Home} />
+                </Switch>
+            </div>
+        );
+    }
+}
+
+export default App;
+```
+*NOTES on the above code*
+
+Two trivial components, `Home` and `Room` are defined. `App.render()` has two buttons and a BRR `<Switch/>`. In the `<Switch>` are two `<Route/>` components. Clicking the buttons will change which component is rendered.
+
+#### Adding a default `<Route\>` 
+
+In the above example, when you type a url that does not match `/` or `/room`, it does not work. You can, and should add a **default route**  by adding a `<Route/>` with *no* `path` property.
+
+```
+import React, { Component } from "react";
+import { Switch, pushURL, Route } from "./basic-react-router";
+
+const Home = () => <p>You are home</p>;
+const Room = () => <p>You are in a room</p>;
+const NotFound = () => <p> 404 ... duh</p>;   // <-- NEW
+
+
+class App extends Component {
+    render() {
+        return (
+            <div>
+                <button onClick={evt => pushURL("/", evt)} >Home</button>
+                <button onClick={evt => pushURL("/room/view", evt)} >Room</button>
+
+                <Switch>
+                    <Route component={NotFound} /> // <-- NEW
+                    <Route path="/" component={Home} />
+                    <Route path="/room" component={Room} />
+                </Switch>
+            </div>
+        );
+    }
+}
+
+export default App;
+```
 
 ```
 import React, { Component } from "react";
 
-import { Switch, onRouterClick, Route } from "./basic-react-router";
+import { Switch, pushURL, Route } from "./basic-react-router";
 
 const Home = () => <p>There is no place like Home</p>;
 const Room = ({id}) => <p>A room with a {id}</p>;
@@ -26,8 +100,8 @@ class App extends Component {
     render() {
         return (
             <div>
-                <button onClick={evt => onRouterClick("/", evt)} >Home</button>
-                <button onClick={evt => onRouterClick("/room/view", evt)} >Room</button>
+                <button onClick={evt => pushURL("/", evt)} >Home</button>
+                <button onClick={evt => pushURL("/room/view", evt)} >Room</button>
 
                 <Switch>
                     <Route component={NotFound} />
@@ -42,7 +116,9 @@ class App extends Component {
 
 export default App;
 ```
+**NOTES on the above code**
 
+There are four trivial React components, `<Home/>`, `<Room/>`, `<NotFound/>` and `<Another\>`. Note that `<Room/>` takes a parameter, the `id`. There are two butons, one which pushes the route `/` and the other pushes the route `/room/view`. There is a `<Switch/>` component. When it is rendered, it finds the current url in the browser, then walks through the `<Route/>` components, comparing the URL with the `path`. At first the `<Home\>` component will be rendered because it matches the current path. Clicking the `Room` button will push the `/room/view` URL causing the `<Room\>` component to be rendered as `A room with a view` because the `id` in this case is `view`. You could manually enter `/room/dog` in the browser in which case `<Room\>` component would be rendered as `A room with a dog`. The url `/room` does **not** match the `/room/:id` route because it has no `id`. If you manually enter the url `/room` then the `<NotFound/>` component will be rendered
 
 ### `<Switch/>` and `<Route/>`
 
@@ -106,4 +182,6 @@ When no defaut route is specified and no other route matches `<Switch/>` renders
 
 
 
-[^1]: `pushURL()` is the new name for `onRouterClick()` in version v0.0.2. `onRouterClick()` is deprecated./o/on
+[^1]: `pushURL()` is the new name for `onRouterClick()` after version v0.0.2. `onRouterClick()` is deprecated.
+
+[^2]: See the create-react-app [page](https://github.com/facebook/create-react-app).

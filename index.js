@@ -3,8 +3,8 @@ import createHistory from "history/createBrowserHistory";
 import pathToRegexp from "path-to-regexp";
 
 import Debug from "debug";
-Debug.enable("basic-react-router");
-// Debug.enable();
+// Debug.enable("basic-react-router");
+Debug.enable();
 let debug = Debug("basic-react-router");
 
 class RouterStore {
