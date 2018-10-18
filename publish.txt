@@ -1,0 +1,6 @@
+
+1 check everything in
+2. `npm run build`
+3. `npm publish`
+
+

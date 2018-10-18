@@ -1,3 +1,11 @@
+## [v1.3.0]
+> October 17, 2018
+
+- bug fix: when a <Switch/> containted only a default <Route/> it failed
+<Switch>
+    <Route component={Home}/>
+</Switch>
+
 ## [v1.1.0]
 > Feb 9, 2018
 

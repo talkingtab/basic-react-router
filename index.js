@@ -117,7 +117,7 @@ export class Switch extends Component {
         }
         // 
         if ( noroute ) { 
-            let { component, ...other } = child.props;
+            let { component, ...other } = noroute.props;
             return React.cloneElement(noroute, { ...other, path: this.state.path });
         }
         debug("Switch().render no  match");
